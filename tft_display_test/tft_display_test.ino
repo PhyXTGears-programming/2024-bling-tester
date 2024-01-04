@@ -15,7 +15,8 @@
     ----> https://www.adafruit.com/product/5394
   The 2.0" TFT breakout
     ----> https://www.adafruit.com/product/4311
-
+//nothing
+// more
 
   Check out the links above for our tutorials and wiring diagrams.
   These displays use SPI to communicate, 4 or 5 pins are required to
@@ -29,65 +30,26 @@
   MIT license, all text above must be included in any redistribution
  **************************************************************************/
 
-#include <Adafruit_GFX.h>    // Core graphics library
-#include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
-#include <SPI.h>
+#include <Adafruit_GFX.h>     // Core graphics library
+#include <Adafruit_ST7789.h>  // Hardware-specific library for ST7789
+#include <SPI.h>              // Standard SPI library
 
-#if defined(ARDUINO_FEATHER_ESP32) // Feather Huzzah32
-  #define TFT_CS         14
-  #define TFT_RST        15
-  #define TFT_DC         32
-
-#elif defined(ESP8266)
-  #define TFT_CS         4
-  #define TFT_RST        16
-  #define TFT_DC         5
-
-#else
-  // For the breakout board, you can use any 2 or 3 pins.
-  // These pins will also work for the 1.8" TFT shield.
-  #define TFT_CS        17
-  #define TFT_RST        27 // Or set to -1 and connect to Arduino RESET pin
-  #define TFT_DC         22
-#endif
-
-// OPTION 1 (recommended) is to use the HARDWARE SPI pins, which are unique
-// to each board and not reassignable. For Arduino Uno: MOSI = pin 11 and
-// SCLK = pin 13. This is the fastest mode of operation and is required if
-// using the breakout board's microSD card.
-
-// Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
-
-// OPTION 2 lets you interface the display using ANY TWO or THREE PINS,
-// tradeoff being that performance is not as fast as hardware SPI above.
-#define TFT_MOSI 19  // Data out
-#define TFT_SCLK 18  // Clock out
-
+// Setup TFT display
+#define TFT_CS        17
+#define TFT_RST       27
+#define TFT_DC        22
+#define TFT_MOSI      19  // Data out
+#define TFT_SCLK      18  // Clock out
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
-
 float p = 3.1415926;
+int delay_time = 2000;
 
 void setup(void) {
   Serial.begin(9600);
   Serial.print(F("Hello! ST77xx TFT Test"));
 
-  // Use this initializer (uncomment) if using a 1.3" or 1.54" 240x240 TFT:
-  //tft.init(240, 240);           // Init ST7789 240x240
-
-  // OR use this initializer (uncomment) if using a 1.69" 280x240 TFT:
-  //tft.init(240, 280);           // Init ST7789 280x240
-
-  // OR use this initializer (uncomment) if using a 2.0" 320x240 TFT:
-  //tft.init(240, 320);           // Init ST7789 320x240
-
-  // OR use this initializer (uncomment) if using a 1.14" 240x135 TFT:
-  //tft.init(135, 240);           // Init ST7789 240x135
-  
-  // OR use this initializer (uncomment) if using a 1.47" 172x320 TFT:
-  //tft.init(172, 320);           // Init ST7789 172x320
-
-  // OR use this initializer (uncomment) if using a 1.9" 170x320 TFT:
+  // Use this initializer if using a 1.9" 170x320 TFT:
   tft.init(170, 320);           // Init ST7789 170x320
 
   // SPI speed defaults to SPI_DEFAULT_FREQ defined in the library, you can override it here
@@ -101,61 +63,61 @@ void setup(void) {
   time = millis() - time;
 
   Serial.println(time, DEC);
-  delay(500);
+  delay(delay_time);
 
   // large block of text
   tft.fillScreen(ST77XX_BLACK);
-  testdrawtext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_WHITE);
+  draw_text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_WHITE);
   delay(1000);
 
   // tft print function!
-  tftPrintTest();
+  tft_print_all();
   delay(4000);
 
   // a single pixel
   tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
-  delay(500);
+  delay(delay_time);
 
   // line draw test
-  testlines(ST77XX_YELLOW);
-  delay(500);
+  draw_lines(ST77XX_YELLOW);
+  delay(delay_time);
 
   // optimized lines
-  testfastlines(ST77XX_RED, ST77XX_BLUE);
-  delay(500);
+  draw_fast_lines(ST77XX_RED, ST77XX_BLUE);
+  delay(delay_time);
 
-  testdrawrects(ST77XX_GREEN);
-  delay(500);
+  draw_empty_rectangle(ST77XX_GREEN);
+  delay(delay_time);
 
-  testfillrects(ST77XX_YELLOW, ST77XX_MAGENTA);
-  delay(500);
+  draw_filled_rectangle(ST77XX_YELLOW, ST77XX_MAGENTA);
+  delay(delay_time);
 
   tft.fillScreen(ST77XX_BLACK);
-  testfillcircles(10, ST77XX_BLUE);
-  testdrawcircles(10, ST77XX_WHITE);
-  delay(500);
+  draw_filled_circles(10, ST77XX_BLUE);
+  draw_empty_circles(10, ST77XX_WHITE);
+  delay(delay_time);
 
-  testroundrects();
-  delay(500);
+  draw_round_rectangle(ST77XX_BLUE);
+  delay(delay_time);
 
-  testtriangles();
-  delay(500);
+  draw_triangle(ST77XX_RED);
+  delay(delay_time);
 
   mediabuttons();
-  delay(500);
+  delay(delay_time);
 
   Serial.println("done");
-  delay(1000);
+  delay(delay_time);
 }
 
 void loop() {
   tft.invertDisplay(true);
   delay(500);
   tft.invertDisplay(false);
-  delay(500);
+  delay(delay_time);
 }
 
-void testlines(uint16_t color) {
+void draw_lines(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(0, 0, x, tft.height()-1, color);
@@ -197,14 +159,14 @@ void testlines(uint16_t color) {
   }
 }
 
-void testdrawtext(char *text, uint16_t color) {
+void draw_text(char *text, uint16_t color) {
   tft.setCursor(0, 0);
   tft.setTextColor(color);
   tft.setTextWrap(true);
   tft.print(text);
 }
 
-void testfastlines(uint16_t color1, uint16_t color2) {
+void draw_fast_lines(uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t y=0; y < tft.height(); y+=5) {
     tft.drawFastHLine(0, y, tft.width(), color1);
@@ -214,14 +176,14 @@ void testfastlines(uint16_t color1, uint16_t color2) {
   }
 }
 
-void testdrawrects(uint16_t color) {
+void draw_empty_rectangle(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color);
   }
 }
 
-void testfillrects(uint16_t color1, uint16_t color2) {
+void draw_filled_rectangle(uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=tft.width()-1; x > 6; x-=6) {
     tft.fillRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color1);
@@ -229,7 +191,7 @@ void testfillrects(uint16_t color1, uint16_t color2) {
   }
 }
 
-void testfillcircles(uint8_t radius, uint16_t color) {
+void draw_filled_circles(uint8_t radius, uint16_t color) {
   for (int16_t x=radius; x < tft.width(); x+=radius*2) {
     for (int16_t y=radius; y < tft.height(); y+=radius*2) {
       tft.fillCircle(x, y, radius, color);
@@ -237,7 +199,7 @@ void testfillcircles(uint8_t radius, uint16_t color) {
   }
 }
 
-void testdrawcircles(uint8_t radius, uint16_t color) {
+void draw_empty_circles(uint8_t radius, uint16_t color) {
   for (int16_t x=0; x < tft.width()+radius; x+=radius*2) {
     for (int16_t y=0; y < tft.height()+radius; y+=radius*2) {
       tft.drawCircle(x, y, radius, color);
@@ -245,9 +207,8 @@ void testdrawcircles(uint8_t radius, uint16_t color) {
   }
 }
 
-void testtriangles() {
+void draw_triangle(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
-  uint16_t color = 0xF800;
   int t;
   int w = tft.width()/2;
   int x = tft.height()-1;
@@ -262,9 +223,8 @@ void testtriangles() {
   }
 }
 
-void testroundrects() {
+void draw_round_rectangle(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
-  uint16_t color = 100;
   int i;
   int t;
   for(t = 0 ; t <= 4; t+=1) {
@@ -284,7 +244,7 @@ void testroundrects() {
   }
 }
 
-void tftPrintTest() {
+void tft_print_all() {
   tft.setTextWrap(false);
   tft.fillScreen(ST77XX_BLACK);
   tft.setCursor(0, 30);
