@@ -41,7 +41,7 @@
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
 float p = 3.1415926;
-int short_delay = 2000;
+int short_delay = 200;
 
 void setup(void) {
   Serial.begin(9600);
@@ -49,23 +49,22 @@ void setup(void) {
 
   // Initializer for a 1.9" 170x320 TFT display:
   tft.init(170, 320);           // Init ST7789 170x320
+  tft.setRotation(1);
 
   // SPI speed defaults to SPI_DEFAULT_FREQ defined in the library, you can override it here
   // Note that speed allowable depends on chip and quality of wiring, if you go too fast, you
   // may end up with a black screen some times, or all the time.
-  //tft.setSPISpeed(40000000);
+  tft.setSPISpeed(40000000);
   
-  Serial.println(F("Initialized"));
-
   // large block of text
   tft.fillScreen(ST77XX_BLACK);
   Serial.println(F("Block of Text"));
-  drawText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_YELLOW);
+  drawText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat.", ST77XX_YELLOW);
   delay(short_delay);
 
   // tft print function!
   Serial.println(F("Draw Text"));
-  drawVariousText();
+  //drawVariousText();
   delay(short_delay);
 
   // a single pixel
@@ -73,49 +72,75 @@ void setup(void) {
   delay(short_delay);
 
   // line draw test
-  Serial.println(F("Draw Lines"));
-  drawLines(ST77XX_YELLOW);
+  //Serial.println(F("Draw Lines"));
+  //drawLines(ST77XX_YELLOW);
   delay(short_delay);
 
   // optimized lines
-  Serial.println(F("Draw Fast Lines"));
-  drawFastLines(ST77XX_RED, ST77XX_BLUE);
+  //Serial.println(F("Draw Fast Lines"));
+  //drawFastLines(ST77XX_RED, ST77XX_BLUE);
   delay(short_delay);
 
   Serial.println(F("Draw Empty Rectangles"));
-  drawEmptyRectangles(ST77XX_GREEN);
+  //drawEmptyRectangles(ST77XX_GREEN);
   delay(short_delay);
 
   Serial.println(F("Draw Filled Rectangles"));
-  drawFilledRectangles(ST77XX_YELLOW, ST77XX_MAGENTA);
+  //drawFilledRectangles(ST77XX_YELLOW, ST77XX_MAGENTA);
   delay(short_delay);
   
   tft.fillScreen(ST77XX_BLACK);
   Serial.println(F("Draw Filled Circles"));
-  drawFilledCircles(10, ST77XX_BLUE);
+  //drawFilledCircles(10, ST77XX_BLUE);
   Serial.println(F("Draw Empty Circles"));
-  drawEmptyCircles(10, ST77XX_WHITE);
+  //drawEmptyCircles(10, ST77XX_WHITE);
   delay(short_delay);
 
-  draw_round_rectangles();
+  //draw_round_rectangles();
   delay(short_delay);
 
   Serial.println(F("Draw Triangles"));
-  drawTriangles();
+  //drawTriangles();
   delay(short_delay);
 
   //mediabuttons();
   delay(short_delay);
+
+  /*********
+  Serial.println(F("Draw H, V, Slant Lines"));
+  tft.fillScreen(ST77XX_BLACK);
+  drawLine(10,20,50,75,ST77XX_GREEN);
+  drawVertLine(50,75,100,ST77XX_RED);
+  drawHorizLine(50,75,100,ST77XX_BLUE);
+  ************/
+
+  tft.fillScreen(ST77XX_BLACK);
+  drawRectangle(0,0,10,75,75,ST77XX_RED,ST77XX_BLUE);
+  drawCircle(125,0,5,50,ST77XX_RED,ST77XX_BLUE);
+
 
   Serial.println("done");
   delay(short_delay);
 }
 
 void loop() {
-  tft.invertDisplay(true);
-  delay(500);
-  tft.invertDisplay(false);
-  delay(500);
+  //tft.invertDisplay(true);
+  //delay(500);
+  //tft.invertDisplay(false);
+  //delay(500);
+}
+
+void drawVertLine(uint16_t x,uint16_t y,uint16_t h,uint16_t color) {
+  tft.drawFastVLine(x, y, h, color);
+}
+
+void drawHorizLine(uint16_t x,uint16_t y,uint16_t w,uint16_t color) {
+  tft.drawFastHLine(x, y, w, color);
+}
+
+void drawLine(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t color) {
+  tft.fillScreen(ST77XX_BLACK);
+  tft.drawLine(x0, y0, x1, y1, color);
 }
 
 void drawLines(uint16_t color) {
@@ -178,6 +203,22 @@ void drawFastLines(uint16_t color1, uint16_t color2) {
   }
 }
 
+void drawRectangle(uint16_t x0, uint16_t y0,uint16_t border,uint16_t height,uint16_t width,uint16_t borderColor,uint16_t fillColor){
+  tft.fillRect(x0,y0,width,height,borderColor);
+  uint16_t innerX = x0 + border;
+  uint16_t innerY = y0 + border;
+  uint16_t innerW = width - 2 * border;
+  uint16_t innerH = height - 2 * border;
+  tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
+}
+
+
+void drawCircle(uint16_t x0, uint16_t y0,uint16_t border,uint16_t radius,uint16_t borderColor,uint16_t fillColor){
+  tft.fillCircle(x0,y0,radius,borderColor);
+  uint16_t innerR = radius - 2 * border;
+  tft.fillCircle(x0,y0,innerR,fillColor);
+}
+
 void drawEmptyRectangles(uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
@@ -189,7 +230,7 @@ void drawFilledRectangles(uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=tft.width()-1; x > 6; x-=6) {
     tft.fillRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color1);
-    tft.drawRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color2);
+    //tft.drawRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color2);
   }
 }
 
@@ -268,9 +309,9 @@ void drawVariousText() {
   tft.setCursor(0, 0);
   tft.fillScreen(ST77XX_BLACK);
   tft.setTextColor(ST77XX_WHITE);
-  tft.setTextSize(0);
+  tft.setTextSize(3);
   tft.println("Hello World!");
-  tft.setTextSize(1);
+  tft.setTextSize(4);
   tft.setTextColor(ST77XX_GREEN);
   tft.print(p, 6);
   tft.println(" Want pi?");
