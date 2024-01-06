@@ -11,7 +11,7 @@
 #define TFT_SCLK      18  // Clock out
 Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
-// Display has x0, y0 top left; x is increasing right; y is increasing down
+// Display has x0, y0 top left; x is horizontal increasing right; y is vertical increasing down
 
 int short_delay = 200;
 int long_delay = 4000;
@@ -20,11 +20,11 @@ class Rectangle
 {
   // Class Member Variables
   // These are initialized at startup
-  int x0;               // Top left corner
-  int y0;               // Top left corner
-  int border;           // Border width
-  int width;            // Width of rectangle (x-direction)
-  int height;           // Height of rectangle (y-direction)
+  int8_t x0;               // Top left corner
+  int8_t y0;               // Top left corner
+  int8_t border;           // Border width
+  int8_t width;            // Width of rectangle (x-direction)
+  int8_t height;           // Height of rectangle (y-direction)
   uint16_t borderColor; // Border color
   uint16_t fillColor;   // Fill color
   int16_t cursorx;      // Cursor x
@@ -32,34 +32,41 @@ class Rectangle
   int8_t textSize;      // Text Size
   uint16_t textColor;   // Text color
   String screenText;    // Screen Text
+  int8_t textLength;    // Screen Text length
 
   // Constructor - creates a Rectangle with text
   // Initializes the member variables
   public:
-  Rectangle(int x,int y,int b,int h,int w,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int ts)
+  Rectangle(int8_t x,int8_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts)
   {
   x0 = x;
   y0 = y;
   border = b;
-  height = h;
-  width = w;
+  height = h; //y-dimension
+  width = w; //x-dimension
   borderColor = bc;
   fillColor = fc;
   screenText = String(txt);
+  textLength = screenText.length();
   textSize = ts;
   textColor = tc;
   tft.fillRect(x0,y0,width,height,borderColor);
-  int innerX = x0 + border;
-  int innerY = y0 + border;
-  int innerW = width - 2 * border;
-  int innerH = height - 2 * border;
-  tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
-  cursorx = x0 + 20;
-  cursorx = y0 + 20;
-  tft.setCursor(cursorx, cursory);
+  int8_t innerX = x0 + border;
+  int8_t innerY = y0 + border;
+  int8_t innerW = width - 2 * border;
+  int8_t innerH = height - 2 * border;
+  cursorx = floor((x0 + width/2)) - floor((12.308*textLength)/2);
+  cursory = floor((y0 + height/2)) - floor((15.455*textSize)/2);
+  //tft.setCursor(cursorx, cursory);
+  tft.setCursor(cursorx,cursory);
   tft.setTextSize(textSize);
   tft.setTextColor(textColor);
+  tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
+  //for (x=0; x<20; x+=1) {
   tft.println(screenText);
+  //}
+  
+  
   }
 
   void Delete(uint16_t screenColor)
@@ -161,9 +168,9 @@ void setup(void) {
   tft.fillScreen(ST77XX_BLACK);
   //Text txt1(10,10,3,ST77XX_RED);
 
-  Rectangle rect1(0,0,10,75,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLUE,2);
+  Rectangle rect1(0,0,10,100,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLUE,2);
   delay(short_delay);
-  Rectangle rect2(75,75,10,75,75,ST77XX_BLUE,ST77XX_YELLOW,"xyz",ST77XX_RED,2);
+  //Rectangle rect2(75,75,10,100,75,ST77XX_BLUE,ST77XX_YELLOW,"xyz",ST77XX_RED,3);
   delay(short_delay);
   Circle circ1(200,40,5,38,ST77XX_RED,ST77XX_GREEN);
   delay(short_delay);
@@ -171,6 +178,7 @@ void setup(void) {
   //txt1.Update(10,10,3,ST77XX_RED);
   //delay(4000);
   //txt1.Delete();
+  /*****
   delay(4000);
   rect1.Delete(ST77XX_BLACK);
   delay(short_delay);
@@ -183,6 +191,7 @@ void setup(void) {
   
   Serial.println("done");
   //delay(short_delay);
+  *****/
 }
 
 void loop() {
