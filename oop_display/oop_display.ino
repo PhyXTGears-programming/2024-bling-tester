@@ -96,10 +96,10 @@ class Circle
 {
   // Class Member Variables
   // These are initialized at startup
-  int x0;               // Top left corner
-  int y0;               // Top left corner
-  int border;           // Border width
-  int radius;           // Radius of circle 
+  int8_t x0;               // Top left corner
+  int8_t y0;               // Top left corner
+  int8_t border;           // Border width
+  int8_t radius;           // Radius of circle 
   uint16_t borderColor; // Border color
   uint16_t fillColor;   // Fill color
   int16_t cursorx;      // Cursor x
@@ -163,7 +163,49 @@ class Circle
   
 };
 
-
+class Line
+{
+  // Class Member Variables
+  // These are initialized at startup
+  int8_t x0;            // Left/top end of line
+  int8_t y0;            // Left/top end of line
+  bool lineVert;        // Line Vert (True)
+  int8_t lineWidth;     // Line width
+  int8_t lineLength;    // Line length
+  uint16_t lineColor;   // Line color
+  
+  // Constructor - creates a Line
+  // and initializes the member variables and state
+  public:
+  Line(int8_t x,int8_t y,int8_t w,int8_t l,bool lv, uint16_t lc) 
+  {
+    x0 = x;
+    y0 = y;
+    lineWidth = w;
+    lineLength = l;
+    lineVert = lv;
+    lineColor = lc;
+    if (lineVert == true)
+    {
+      tft.drawFastVLine(x0, y0, lineLength, lineColor);
+    }
+    if (lineVert == false)
+    {
+      tft.drawFastHLine(x0, y0, lineLength, lineColor);
+    }
+  }
+  void Delete(uint16_t lineColor)
+  {
+    if (lineVert == true)
+    {
+      tft.drawFastVLine(x0, y0, lineLength, lineColor);
+    }
+    if (lineVert == false)
+    {
+      tft.drawFastHLine(x0, y0, lineLength, lineColor);
+    }
+  }
+};
 void setup(void) 
 {
   Serial.begin(9600);
@@ -181,21 +223,17 @@ void setup(void)
   tft.fillScreen(ST77XX_BLACK);
   //Text txt1(10,10,3,ST77XX_RED);
 
-  //Rectangle rect1(0,0,10,100,75,ST77XX_RED,ST77XX_GREEN,"axb",ST77XX_BLUE,2);
-  Rectangle rect1(0,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
-  //Rectangle rect2(90,0,5,100,100,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
-  //Rectangle rect3(120,0,5,100,100,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,3);
-  //Rectangle rect4(90,80,5,90,90,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
-  //Rectangle rect3(120,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,3);
-  //Rectangle rect4(0,60,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
-  //Rectangle rect5(60,60,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,5);
-  
+  //Rectangle rect1(0,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
   delay(short_delay);
-  Circle circl1(120,50,2,48,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
+  //Circle circl1(120,50,2,48,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
+  delay(short_delay);
+  Line line1(20, 20, 3, 50, true,ST77XX_RED);
   delay(long_delay); 
-  rect1.Delete(ST77XX_BLACK);
+  //rect1.Delete(ST77XX_BLACK);
   delay(short_delay); 
-  circl1.Delete(ST77XX_BLACK);
+  //circl1.Delete(ST77XX_BLACK);
+  delay(short_delay); 
+  //circl1.Delete(ST77XX_BLACK);
 
 } // End Setup
 
