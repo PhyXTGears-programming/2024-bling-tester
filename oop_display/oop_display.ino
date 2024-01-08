@@ -33,49 +33,66 @@ class Rectangle
   uint16_t textColor;   // Text color
   String screenText;    // Screen Text
   int8_t textLength;    // Screen Text length
+  String tempString;
 
   // Constructor - creates a Rectangle with text
   // Initializes the member variables
   public:
-  Rectangle(int8_t x,int8_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts)
+  Rectangle(int8_t x,int8_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
   {
-  x0 = x;
-  y0 = y;
-  border = b;
-  height = h; //y-dimension
-  width = w; //x-dimension
-  borderColor = bc;
-  fillColor = fc;
-  screenText = String(txt);
-  textLength = screenText.length();
-  textSize = ts;
-  textColor = tc;
-  tft.fillRect(x0,y0,width,height,borderColor);
-  int8_t innerX = x0 + border;
-  int8_t innerY = y0 + border;
-  int8_t innerW = width - 2 * border;
-  int8_t innerH = height - 2 * border;
-  cursorx = floor((x0 + width/2)) - floor((12.308*textLength)/2);
-  cursory = floor((y0 + height/2)) - floor((15.455*textSize)/2);
-  //tft.setCursor(cursorx, cursory);
-  tft.setCursor(cursorx,cursory);
-  tft.setTextSize(textSize);
-  tft.setTextColor(textColor);
-  tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
-  //for (x=0; x<20; x+=1) {
-  tft.println(screenText);
-  //}
-  
-  
-  }
+    x0 = x;
+    y0 = y;
+    border = b;
+    height = h; //y-dimension
+    width = w; //x-dimension
+    borderColor = bc;
+    fillColor = fc;
+    screenText = String(txt);
+    textLength = screenText.length();
+    textSize = ts;
+    textColor = tc;
+    tft.fillRect(x0,y0,width,height,borderColor);
+    int8_t innerX = x0 + border;
+    int8_t innerY = y0 + border;
+    int8_t innerW = width - 2 * border;
+    int8_t innerH = height - 2 * border;
+    // Text for this object
+    if (textSize == 1) 
+    {
+      cursorx = floor((x0 + width/2)) - floor((6.040*textLength)/2);
+    }
+    else if (textSize == 2) 
+    { 
+      cursorx = floor((x0 + width/2)) - floor((11.5*textLength)/2);
+    }
+    else if (textSize == 3) 
+    { 
+      cursorx = floor((x0 + width/2)) - floor((17*textLength)/2);
+    }
+    else if (textSize == 4)
+    { 
+      cursorx = floor((x0 + width/2)) - floor((22*textLength)/2);
+    }
+    else if (textSize == 5) 
+    { 
+      cursorx = floor((x0 + width/2)) - floor((28*textLength)/2);
+    }
+    cursory = floor((y0 + height/2)) - floor((9*textSize)/2);
+    tft.setCursor(cursorx,cursory);
+    tft.setTextSize(textSize);
+    tft.setTextColor(textColor);
+    tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
+    tft.println(screenText);
+  } // End Rectangle()
 
   void Delete(uint16_t screenColor)
   {
     tft.fillRect(x0,y0,width,height,screenColor);
   }
+
 };
 
-class Circle
+class Circle 
 {
   // Class Member Variables
   // These are initialized at startup
@@ -85,74 +102,70 @@ class Circle
   int radius;           // Radius of circle 
   uint16_t borderColor; // Border color
   uint16_t fillColor;   // Fill color
-
+  int16_t cursorx;      // Cursor x
+  int16_t cursory;      // Cursor y
+  int8_t textSize;      // Text Size
+  uint16_t textColor;   // Text color
+  String screenText;    // Screen Text
+  int8_t textLength;    // Screen Text length
+  String tempString;
+  
   // Constructor - creates a Circle
   // and initializes the member variables and state
   public:
-  Circle(int x, int y,int b,int r,uint16_t bc,uint16_t fc)
+  Circle(int8_t x,int8_t y,int8_t b,int8_t r,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
   {
-  x0 = x;
-  y0 = y;
-  border = b;
-  radius = r;
-  borderColor = bc;
-  fillColor = fc;
-  tft.fillCircle(x0,y0,radius,borderColor);
-  uint16_t innerR = radius - 2 * border;
-  tft.fillCircle(x0,y0,innerR,fillColor);
+    x0 = x;
+    y0 = y;
+    border = b;
+    radius = r;
+    borderColor = bc;
+    fillColor = fc;
+    screenText = String(txt);
+    textLength = screenText.length();
+    textSize = ts;
+    textColor = tc;
+    tft.fillCircle(x0,y0,radius,borderColor);
+    uint16_t innerR = radius - 2 * border;
+    tft.fillCircle(x0,y0,innerR,fillColor);
+    // Text for this object
+    if (textSize == 1)
+    {
+      cursorx = x0 - floor((6.040*textLength)/2);
+    }
+    else if (textSize == 2)
+    { 
+      cursorx = x0 - floor((11.5*textLength)/2);
+    }
+    else if (textSize == 3) 
+    { 
+      cursorx = x0 - floor((17*textLength)/2);
+    }
+    else if (textSize == 4) 
+    { 
+      cursorx = x0 - floor((22*textLength)/2);
+    }
+    else if (textSize == 5) 
+    { 
+      cursorx = x0 - floor((28*textLength)/2);
+    }
+    cursory = y0 - floor((9*textSize)/2);
+    tft.setCursor(cursorx,cursory);
+    tft.setTextSize(textSize);
+    tft.setTextColor(textColor);
+    tft.println(screenText);
+
   }
-  
   void Delete(uint16_t screenColor)
   {
     tft.fillCircle(x0,y0,radius,screenColor);
   }
+  
 };
 
-class Text
+
+void setup(void) 
 {
-  // Class Member Variables
-  // These are initialized at startup
-  int x0;             // Cursor x
-  int y0;             // Cursor y
-  int textSize;       // Text Size
-  uint16_t textColor; // Text color
-
-  // Constructor - creates text
-  // and initializes the member variables and state
-  public:
-  Text(int x, int y,int ts,uint16_t tc)
-  {
-  /************
-  x0 = x;
-  y0 = y;
-  textSize = ts;
-  textColor = tc;
-  tft.setCursor(x0, y0);
-  tft.setTextSize(textSize);
-  tft.setTextColor(textColor);
-  ****/
-  }
-  
-  void Update(int x, int y,int ts,uint16_t tc)
-  {
-    x0 = x;
-    y0 = y;
-    textSize = ts;
-    textColor = tc;
-    tft.setCursor(x0, y0);
-    tft.setTextSize(textSize);
-    tft.setTextColor(textColor);
-    tft.println("xxx");
-  }
-  void Delete()
-  {
-    tft.setCursor(x0, y0);
-    tft.println("DDD");
-  }
-  
-};
-
-void setup(void) {
   Serial.begin(9600);
   Serial.println(F("Hello! ST77xx TFT Test"));
 
@@ -168,32 +181,25 @@ void setup(void) {
   tft.fillScreen(ST77XX_BLACK);
   //Text txt1(10,10,3,ST77XX_RED);
 
-  Rectangle rect1(0,0,10,100,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLUE,2);
-  delay(short_delay);
-  //Rectangle rect2(75,75,10,100,75,ST77XX_BLUE,ST77XX_YELLOW,"xyz",ST77XX_RED,3);
-  delay(short_delay);
-  Circle circ1(200,40,5,38,ST77XX_RED,ST77XX_GREEN);
-  delay(short_delay);
-  Circle circ2(280,115,5,38,ST77XX_BLUE,ST77XX_YELLOW);
-  //txt1.Update(10,10,3,ST77XX_RED);
-  //delay(4000);
-  //txt1.Delete();
-  /*****
-  delay(4000);
-  rect1.Delete(ST77XX_BLACK);
-  delay(short_delay);
-  rect2.Delete(ST77XX_BLACK);
-  delay(short_delay);
-  circ1.Delete(ST77XX_BLACK);
-  delay(short_delay);
-  circ2.Delete(ST77XX_BLACK);
-  delay(5000);
+  //Rectangle rect1(0,0,10,100,75,ST77XX_RED,ST77XX_GREEN,"axb",ST77XX_BLUE,2);
+  Rectangle rect1(0,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
+  //Rectangle rect2(90,0,5,100,100,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
+  //Rectangle rect3(120,0,5,100,100,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,3);
+  //Rectangle rect4(90,80,5,90,90,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
+  //Rectangle rect3(120,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,3);
+  //Rectangle rect4(0,60,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
+  //Rectangle rect5(60,60,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,5);
   
-  Serial.println("done");
-  //delay(short_delay);
-  *****/
-}
+  delay(short_delay);
+  Circle circl1(120,50,2,48,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
+  delay(long_delay); 
+  rect1.Delete(ST77XX_BLACK);
+  delay(short_delay); 
+  circl1.Delete(ST77XX_BLACK);
 
-void loop() {
+} // End Setup
+
+void loop() 
+{
 
 }

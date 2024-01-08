@@ -15,15 +15,15 @@ class Flasher
   public:
   Flasher(int pin, long on, long off)
   {
-  ledPin = pin;
-  pinMode(ledPin, OUTPUT);     
+    ledPin = pin;
+    pinMode(ledPin, OUTPUT);     
     
-  OnTime = on;
-  OffTime = off;
+    OnTime = on;
+    OffTime = off;
   
-  ledState = LOW; 
-  previousMillis = 0;
-  }
+    ledState = LOW; 
+    previousMillis = 0;
+  } //End of Flasher()
 
   void Update()
   {
@@ -42,7 +42,7 @@ class Flasher
       previousMillis = currentMillis;   // Remember the time
       digitalWrite(ledPin, ledState);   // Update the actual LED
     }
-  }
+  } // End Update()
 };
 
 
