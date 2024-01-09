@@ -20,8 +20,8 @@ class Rectangle
 {
   // Class Member Variables
   // These are initialized at startup
-  int8_t x0;               // Top left corner
-  int8_t y0;               // Top left corner
+  int16_t x0;               // Top left corner
+  int16_t y0;               // Top left corner
   int8_t border;           // Border width
   int8_t width;            // Width of rectangle (x-direction)
   int8_t height;           // Height of rectangle (y-direction)
@@ -38,7 +38,7 @@ class Rectangle
   // Constructor - creates a Rectangle with text
   // Initializes the member variables
   public:
-  Rectangle(int8_t x,int8_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
+  Rectangle(int16_t x,int16_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
   {
     x0 = x;
     y0 = y;
@@ -52,10 +52,10 @@ class Rectangle
     textSize = ts;
     textColor = tc;
     tft.fillRect(x0,y0,width,height,borderColor);
-    int8_t innerX = x0 + border;
-    int8_t innerY = y0 + border;
-    int8_t innerW = width - 2 * border;
-    int8_t innerH = height - 2 * border;
+    int16_t innerX = x0 + border;
+    int16_t innerY = y0 + border;
+    int16_t innerW = width - 2 * border;
+    int16_t innerH = height - 2 * border;
     // Text for this object
     if (textSize == 1) 
     {
@@ -96,8 +96,8 @@ class Circle
 {
   // Class Member Variables
   // These are initialized at startup
-  int8_t x0;               // Top left corner
-  int8_t y0;               // Top left corner
+  int16_t x0;               // Top left corner
+  int16_t y0;               // Top left corner
   int8_t border;           // Border width
   int8_t radius;           // Radius of circle 
   uint16_t borderColor; // Border color
@@ -113,7 +113,7 @@ class Circle
   // Constructor - creates a Circle
   // and initializes the member variables and state
   public:
-  Circle(int8_t x,int8_t y,int8_t b,int8_t r,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
+  Circle(int16_t x,int16_t y,int8_t b,int8_t r,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
   {
     x0 = x;
     y0 = y;
@@ -163,21 +163,21 @@ class Circle
   
 };
 
-class Line
+class Vline
 {
   // Class Member Variables
   // These are initialized at startup
-  int8_t x0;            // Left/top end of line
-  int8_t y0;            // Left/top end of line
+  int16_t x0;            // Left/top end of line
+  int16_t y0;            // Left/top end of line
   bool lineVert;        // Line Vert (True)
   int8_t lineWidth;     // Line width
-  int8_t lineLength;    // Line length
+  int16_t lineLength;    // Line length
   uint16_t lineColor;   // Line color
   
   // Constructor - creates a Line
   // and initializes the member variables and state
   public:
-  Line(int8_t x,int8_t y,int8_t w,int8_t l,bool lv, uint16_t lc) 
+  Vline(int16_t x,int16_t y,int8_t w,int16_t l,bool lv, uint16_t lc) 
   {
     x0 = x;
     y0 = y;
@@ -187,22 +187,22 @@ class Line
     lineColor = lc;
     if (lineVert == true)
     {
-      tft.drawFastVLine(x0, y0, lineLength, lineColor);
+      tft.fillRect(x0,y0,lineWidth,lineLength,lineColor);
     }
     if (lineVert == false)
     {
-      tft.drawFastHLine(x0, y0, lineLength, lineColor);
+      tft.fillRect(x0,y0,lineLength,lineWidth,lineColor);
     }
   }
-  void Delete(uint16_t lineColor)
+  void Delete(uint16_t lineClear)
   {
     if (lineVert == true)
     {
-      tft.drawFastVLine(x0, y0, lineLength, lineColor);
+      tft.fillRect(x0,y0,lineWidth,lineLength,lineClear);
     }
     if (lineVert == false)
     {
-      tft.drawFastHLine(x0, y0, lineLength, lineColor);
+      tft.fillRect(x0,y0,lineLength,lineWidth,lineClear);
     }
   }
 };
@@ -212,7 +212,7 @@ void setup(void)
   Serial.println(F("Hello! ST77xx TFT Test"));
 
   // Initializer for a 1.9" 170x320 TFT display:
-  tft.init(170, 320);           // Init ST7789 170x320
+  tft.init(170,320);           // Init ST7789 170x320
   tft.setRotation(1);
 
   // SPI speed defaults to SPI_DEFAULT_FREQ defined in the library, you can override it here
@@ -223,17 +223,17 @@ void setup(void)
   tft.fillScreen(ST77XX_BLACK);
   //Text txt1(10,10,3,ST77XX_RED);
 
-  //Rectangle rect1(0,0,5,50,50,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,2);
+  Rectangle rect1(0,0,5,50,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLACK,2);
   delay(short_delay);
-  //Circle circl1(120,50,2,48,ST77XX_RED,ST77XX_BLACK,"axb",ST77XX_WHITE,4);
-  delay(short_delay);
-  Line line1(20, 20, 3, 50, true,ST77XX_RED);
+  Vline line1(65,0,5,150,true,ST77XX_YELLOW); //true is vertical; false is horizontal
+  delay(short_delay);  
+  Circle circl1(130,70,2,40,ST77XX_RED,ST77XX_BLUE,"xyz",ST77XX_WHITE,3);
   delay(long_delay); 
-  //rect1.Delete(ST77XX_BLACK);
+  rect1.Delete(ST77XX_BLACK);
   delay(short_delay); 
-  //circl1.Delete(ST77XX_BLACK);
+  line1.Delete(ST77XX_BLACK);
   delay(short_delay); 
-  //circl1.Delete(ST77XX_BLACK);
+  circl1.Delete(ST77XX_BLACK);
 
 } // End Setup
 
