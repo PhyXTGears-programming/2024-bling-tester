@@ -225,15 +225,17 @@ void setup(void)
 
   Rectangle rect1(0,0,5,50,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLACK,2);
   delay(short_delay);
+  Rectangle rect2(200,20,5,80,50,ST77XX_YELLOW,ST77XX_RED,"DEF",ST77XX_BLACK,3);
+  delay(short_delay);
   Vline line1(65,0,5,150,true,ST77XX_YELLOW); //true is vertical; false is horizontal
   delay(short_delay);  
   Circle circl1(130,70,2,40,ST77XX_RED,ST77XX_BLUE,"xyz",ST77XX_WHITE,3);
   delay(long_delay); 
-  rect1.Delete(ST77XX_BLACK);
+  //rect1.Delete(ST77XX_BLACK);
   delay(short_delay); 
-  line1.Delete(ST77XX_BLACK);
+  //line1.Delete(ST77XX_BLACK);
   delay(short_delay); 
-  circl1.Delete(ST77XX_BLACK);
+  //circl1.Delete(ST77XX_BLACK);
 
 } // End Setup
 
