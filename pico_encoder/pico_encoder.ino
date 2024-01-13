@@ -9,17 +9,16 @@
  */
 #include <Wire.h>
 #include "Adafruit_seesaw.h"
-#include <seesaw_neopixel.h>
+//#include <seesaw_neopixel.h>
 
 #define SS_SWITCH        28
-#define SS_NEOPIX        6
 
 #define SEESAW_ADDR          0x36
 
 Adafruit_seesaw encoder;
 
 int32_t encoderPosition;
-uint16_t positionOffset;
+int16_t positionOffset;
 
 void setup() {
   Serial.begin(115200);
@@ -35,7 +34,7 @@ void setup() {
     while(1) delay(10);
   }
   Serial.println("seesaw started");
-
+/***
   uint32_t version = ((encoder.getVersion() >> 16) & 0xFFFF);
   if (version  != 4991){
     Serial.print("Wrong firmware loaded? ");
@@ -43,10 +42,7 @@ void setup() {
     while(1) delay(10);
   }
   Serial.println("Found Product 4991");
-
-  // use a pin for the built in encoder switch
-  encoder.pinMode(SS_SWITCH, INPUT_PULLUP);
-
+**/
   // get starting position
   encoderPosition = encoder.getEncoderPosition();
 
