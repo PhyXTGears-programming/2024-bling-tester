@@ -60,7 +60,7 @@ void loop(){
 
   positionOffset = checkPosition();
   if (positionOffset != 0) {
-    Serial.println(encoderPosition);  
+    //Serial.println(encoderPosition);  
     Serial.println(positionOffset);  
   }
   
