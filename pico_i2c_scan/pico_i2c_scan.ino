@@ -9,8 +9,8 @@
 #include <Wire.h>
 
 void setup() {
-  Wire.setSDA(6);
-  Wire.setSCL(7);
+  //Wire.setSDA(0);
+  //Wire.setSCL(1);
   Wire.begin();
   Serial.begin(115200);
   Serial.println("\nI2C Scanner");

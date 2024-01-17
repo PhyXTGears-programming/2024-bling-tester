@@ -7,8 +7,8 @@
         void disableEncoderInterrupt();
         void setEncoderPosition(int32_t pos);
  */
-#include <Wire.h>
-#include "Adafruit_seesaw.h"
+//#include <Wire.h>
+#include <Adafruit_seesaw.h>
 //#include <seesaw_neopixel.h>
 
 #define SS_SWITCH        28
@@ -23,8 +23,8 @@ int16_t positionOffset;
 void setup() {
   Serial.begin(115200);
   delay(5000);
-  Wire.setSDA(0);
-  Wire.setSCL(1);
+  //Wire.setSDA(0);
+  //Wire.setSCL(1);
   while (!Serial) delay(10);
 
   Serial.println("Looking for seesaw!");
