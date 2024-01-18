@@ -1,0 +1,36 @@
+Rotary Encoder for screen selection
+Use it to scroll through options on screen menus.
+Use a timeout to make selection
+
+uint16_t checkPosition() 
+This function will return 1 for each clockwise click; -1 for each count-clockwise click
+Example: posNow = checkPosition();
+
+Screen Display 
+Use these functions to draw lines, draw rectangle with text, draw circle with text.
+
+Class Rectangle:
+Create instance as follows:
+Rectangle(int16_t x,int16_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
+where x,y are top left corner; b is the border width; w,h are width and height
+bc is border color; fc is the fill color, txt is the text in the center of rectangle
+tc is text color; ts is text size (1 smallest - 5 largest)
+Example: Rectangle rct1(0,0,5,50,75,RED,GREEN,"abc",BLACK,2);
+
+Class Circle:
+Create instance as follows:
+Circle(int16_t x,int16_t y,int8_t b,int8_t r,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
+where x,y are center; b is the border width; r is radius
+bc is border color; fc is the fill color, txt is the text in the center of rectangle
+tc is text color; ts is text size (1 smallest - 5 largest)
+Example: Circle cir1(130,70,2,40,RED,BLUE,"xyz",WHITE,3);
+
+Class Vline:
+Create instance as follows:
+Vline(int16_t x,int16_t y,int8_t w,int16_t l,bool lv, uint16_t lc) 
+where x,y are top/left end; w,l are width and length
+lv is Verical/Horizontal (true vertical, false horizontal)
+lc is line color
+Example: Vline ln1(65,0,5,150,true,YELLOW);
+
+LED string output
