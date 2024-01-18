@@ -1,14 +1,10 @@
-Rotary Encoder for screen selection
-Use it to scroll through options on screen menus.
-Use a timeout to make selection
-
+Rotary Encoder for screen selection. Scroll through options on screen menus.
 uint16_t checkPosition() 
 This function will return 1 for each clockwise click; -1 for each count-clockwise click
 Example: posNow = checkPosition();
 
 Screen Display 
 Use these functions to draw lines, draw rectangle with text, draw circle with text.
-
 Class Rectangle:
 Create instance as follows:
 Rectangle(int16_t x,int16_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
