@@ -4,22 +4,16 @@
 
 #include <FastLED.h>
 
-// How many leds in your strip?
-#define NUM_LEDS 64 
-
-// For led chips like Neopixels, which have a data line, ground, and power, you just
-// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
-// ground, and power), like the LPD8806, define both DATA_PIN and CLOCK_PIN
-#define DATA_PIN 15
-#define CLOCK_PIN 13
-#define relayPin 2
+#define NUM_LEDS 64 // Number of LEDs in string
+#define DATA_PIN 15 // Data ouput pin
+#define RELAY_PIN 2 // 
 
 // Define the array of leds
 CRGB leds[NUM_LEDS];
 
 void setup() { 
-  pinMode(relayPin, OUTPUT);
-  digitalWrite(relayPin, HIGH);
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, HIGH); // Set high to supply power to LED string
 	Serial.begin(57600);
 	Serial.println("resetting");
 	FastLED.addLeds<WS2812,DATA_PIN,RGB>(leds,NUM_LEDS);

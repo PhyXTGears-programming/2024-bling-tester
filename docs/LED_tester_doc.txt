@@ -34,3 +34,8 @@ lc is line color
 Example: Vline ln1(65,0,5,150,true,YELLOW);
 
 LED string output
+https://fastled.io/docs/
+https://github.com/FastLED/FastLED
+
+
+
