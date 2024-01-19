@@ -1,3 +1,11 @@
+Main Fucntions								1/18/24
+Select number of LEDs
+Select Brighness
+Select Pattern AAAAA; ABCDE etc
+Select Motion: Fill-Empty; Flash; Twinkle etc
+Robot Control
+
+Coding Setup
 Rotary Encoder for screen selection. Scroll through options on screen menus.
 uint16_t checkPosition() 
 This function will return 1 for each clockwise click; -1 for each count-clockwise click
@@ -27,7 +35,7 @@ Vline(int16_t x,int16_t y,int8_t w,int16_t l,bool lv, uint16_t lc)
 where x,y are top/left end; w,l are width and length
 lv is Verical/Horizontal (true vertical, false horizontal)
 lc is line color
-Example: Vline ln1(65,0,5,150,true,YELLOW);
+git Example: Vline ln1(65,0,5,150,true,YELLOW);
 
 LED string output
 https://fastled.io/docs/
