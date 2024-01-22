@@ -2,7 +2,7 @@
 const int buttonPin = 14;     // the number of the pushbutton pin
 const int ledPin =  13;      // the number of the LED pin
 
-bool ledBlink = false;
+bool ledBlink = true;
 
 void setup() {
   // initialize the LED pin as an output:
