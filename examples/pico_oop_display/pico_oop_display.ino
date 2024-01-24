@@ -16,8 +16,8 @@ Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RS
 int short_delay = 200;
 int long_delay = 4000;
 
-class Rectangle
-{
+class Rectangle {
+  public:
   // Class Member Variables
   // These are initialized at startup
   int16_t x0;               // Top left corner
@@ -51,6 +51,8 @@ class Rectangle
     textLength = screenText.length();
     textSize = ts;
     textColor = tc;
+
+    void Draw(){
     tft.fillRect(x0,y0,width,height,borderColor);
     int16_t innerX = x0 + border;
     int16_t innerY = y0 + border;
@@ -83,11 +85,17 @@ class Rectangle
     tft.setTextColor(textColor);
     tft.fillRect(innerX,innerY,innerW,innerH,fillColor);
     tft.println(screenText);
-  } // End Rectangle()
+    }
+  
 
   void Delete(uint16_t screenColor)
   {
     tft.fillRect(x0,y0,width,height,screenColor);
+  }
+
+  void Update(String txt){
+    screenText = txt;
+    tft.Draw();
   }
 
 };
@@ -206,8 +214,7 @@ class Vline
     }
   }
 };
-void setup(void) 
-{
+void setup() {
   Serial.begin(9600);
   Serial.println(F("Hello! ST77xx TFT Test"));
 
@@ -224,8 +231,9 @@ void setup(void)
   //Text txt1(10,10,3,ST77XX_RED);
 
   Rectangle rect1(0,0,5,50,75,ST77XX_RED,ST77XX_GREEN,"abc",ST77XX_BLACK,2);
-  delay(short_delay);
-  Rectangle rect2(200,20,5,80,50,ST77XX_YELLOW,ST77XX_RED,"DEF",ST77XX_BLACK,3);
+  delay(5000);
+  rect1.Update("def");
+/*Rectangle rect2(200,20,5,80,50,ST77XX_YELLOW,ST77XX_RED,"DEF",ST77XX_BLACK,3);
   delay(short_delay);
   Vline line1(65,0,5,150,true,ST77XX_YELLOW); //true is vertical; false is horizontal
   delay(short_delay);  
@@ -236,10 +244,8 @@ void setup(void)
   //line1.Delete(ST77XX_BLACK);
   delay(short_delay); 
   //circl1.Delete(ST77XX_BLACK);
-
+*/
 } // End Setup
 
-void loop() 
-{
-
+void loop() {
 }
