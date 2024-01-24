@@ -51,13 +51,20 @@ class Rectangle {
       textLength = screenText.length();
       textSize = ts;
       textColor = tc;
-    }
+    } // End Rectangle init
+
+    // Draw the rectangle on the screen
     void Draw() {
-      tft.fillRect(x0, y0, width, height, borderColor);
-      int16_t innerX = x0 + border;
+      // Fill the whole rectangle with border color
+      tft.fillRect(x0, y0, width, height, borderColor); 
+
+      // Create the inner fill rectangle, leaving the border visible
+      int16_t innerX = x0 + border; 
       int16_t innerY = y0 + border;
       int16_t innerW = width - 2 * border;
       int16_t innerH = height - 2 * border;
+      tft.fillRect(innerX, innerY, innerW, innerH, fillColor);
+
       // Text for this object
       if (textSize == 1)
       {
@@ -83,9 +90,8 @@ class Rectangle {
       tft.setCursor(cursorx, cursory);
       tft.setTextSize(textSize);
       tft.setTextColor(textColor);
-      tft.fillRect(innerX, innerY, innerW, innerH, fillColor);
       tft.println(screenText);
-    }
+    } // End rectangle draw
 
 
     void Delete(uint16_t screenColor)
@@ -93,11 +99,12 @@ class Rectangle {
       tft.fillRect(x0, y0, width, height, screenColor);
     }
 
+    // Updates the screen text
     void Update(String txt) {
       screenText = txt;
-    }
+    } 
 
-};
+}; // End Rectangle class
 
 class Circle {
     // Class Member Variables
@@ -119,8 +126,7 @@ class Circle {
     // Constructor - creates a Circle
     // and initializes the member variables and state
   public:
-    Circle(int16_t x, int16_t y, int8_t b, int8_t r, uint16_t bc, uint16_t fc, String txt, uint16_t tc, int8_t ts)
-    {
+    Circle(int16_t x, int16_t y, int8_t b, int8_t r, uint16_t bc, uint16_t fc, String txt, uint16_t tc, int8_t ts) { 
       x0 = x;
       y0 = y;
       border = b;
@@ -131,9 +137,17 @@ class Circle {
       textLength = screenText.length();
       textSize = ts;
       textColor = tc;
+    } // End circle init
+
+    // Draw the circle on the screen
+    void Draw() {    
+      // Fill the whole cicle with border color      
       tft.fillCircle(x0, y0, radius, borderColor);
+
+      // Create the inner fill circle, leaving the border visible      
       uint16_t innerR = radius - 2 * border;
       tft.fillCircle(x0, y0, innerR, fillColor);
+      
       // Text for this object
       if (textSize == 1)
       {
@@ -160,14 +174,19 @@ class Circle {
       tft.setTextSize(textSize);
       tft.setTextColor(textColor);
       tft.println(screenText);
+      } // End circle draw
 
-    }
     void Delete(uint16_t screenColor)
     {
       tft.fillCircle(x0, y0, radius, screenColor);
     }
 
-};
+    // Updates the screen text
+    void Update(String txt) {
+      screenText = txt;
+    } 
+    
+}; // End circle class
 
 class Vline
 {
@@ -183,14 +202,18 @@ class Vline
     // Constructor - creates a Line
     // and initializes the member variables and state
   public:
-    Vline(int16_t x, int16_t y, int8_t w, int16_t l, bool lv, uint16_t lc)
-    {
+    Vline(int16_t x, int16_t y, int8_t w, int16_t l, bool lv, uint16_t lc) {
       x0 = x;
       y0 = y;
       lineWidth = w;
       lineLength = l;
       lineVert = lv;
       lineColor = lc;
+      } 
+
+      
+    // Draw the line on the screen
+    void Draw() { 
       if (lineVert == true)
       {
         tft.fillRect(x0, y0, lineWidth, lineLength, lineColor);
@@ -199,7 +222,8 @@ class Vline
       {
         tft.fillRect(x0, y0, lineLength, lineWidth, lineColor);
       }
-    }
+    } // End draw line
+    
     void Delete(uint16_t lineClear)
     {
       if (lineVert == true)
@@ -211,10 +235,11 @@ class Vline
         tft.fillRect(x0, y0, lineLength, lineWidth, lineClear);
       }
     }
-};
+}; // End line class
+
 void setup() {
   Serial.begin(9600);
-  Serial.println(F("Hello! ST77xx TFT Test"));
+  Serial.println(F("Display Test"));
 
   // Initializer for a 1.9" 170x320 TFT display:
   tft.init(170, 320);          // Init ST7789 170x320
@@ -223,28 +248,31 @@ void setup() {
   // SPI speed defaults to SPI_DEFAULT_FREQ defined in the library, you can override it here
   // Note that speed allowable depends on chip and quality of wiring, if you go too fast, you
   // may end up with a black screen some times, or all the time.
-  tft.setSPISpeed(40000000); // Max try 62,500,000
+  tft.setSPISpeed(120000000); // Max try 62,500,000
 
   tft.fillScreen(ST77XX_BLACK);
   //Text txt1(10,10,3,ST77XX_RED);
 
   Rectangle rect1(0, 0, 5, 50, 75, ST77XX_RED, ST77XX_GREEN, "abc", ST77XX_BLACK, 2);
   rect1.Draw();
-  delay(5000);
+  delay(long_delay);
   rect1.Update("def");
   rect1.Draw();
-  /*Rectangle rect2(200,20,5,80,50,ST77XX_YELLOW,ST77XX_RED,"DEF",ST77XX_BLACK,3);
-    delay(short_delay);
-    Vline line1(65,0,5,150,true,ST77XX_YELLOW); //true is vertical; false is horizontal
-    delay(short_delay);
-    Circle circl1(130,70,2,40,ST77XX_RED,ST77XX_BLUE,"xyz",ST77XX_WHITE,3);
-    delay(long_delay);
+  //Rectangle rect2(200,20,5,80,50,ST77XX_YELLOW,ST77XX_RED,"DEF",ST77XX_BLACK,3);  
+  delay(short_delay);
+  Vline line1(65,0,5,150,true,ST77XX_YELLOW); //true is vertical; false is horizontal
+  delay(short_delay);
+  Circle circl1(130,70,2,40,ST77XX_RED,ST77XX_BLUE,"tuv",ST77XX_WHITE,3);
+  circl1.Draw();
+  delay(long_delay);
+  circl1.Update("xyz");
+  circl1.Draw();  
+  delay(long_delay);
     //rect1.Delete(ST77XX_BLACK);
     delay(short_delay);
     //line1.Delete(ST77XX_BLACK);
     delay(short_delay);
     //circl1.Delete(ST77XX_BLACK);
-  */
 } // End Setup
 
 void loop() {
