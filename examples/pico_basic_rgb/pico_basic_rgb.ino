@@ -1,16 +1,17 @@
 
 #include "FastLED.h"
-
+#include <pico_relay.h>
 #define NUM_LEDS 7
 #define DATA_PIN 15 // Data ouput pin
-#define RELAY_PIN 2 // 
+
+
 
 CRGB leds[NUM_LEDS];
 
 void setup() {
     delay(200);
-    pinMode(RELAY_PIN, OUTPUT);
-    digitalWrite(RELAY_PIN, HIGH); // Set high to supply power to LED string
+    setupRelay();
+    ledStringOn();
     FastLED.addLeds<WS2812, DATA_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
 }
 
