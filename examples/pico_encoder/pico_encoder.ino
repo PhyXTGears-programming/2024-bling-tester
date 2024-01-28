@@ -8,6 +8,7 @@ void setup() {
   delay(5000);
   Wire.setSDA(0);
   Wire.setSCL(1);
+  Wire.begin();
   while (!Serial) delay(10);
 
   // Start Encoder
