@@ -96,7 +96,7 @@ class Rectangle {
 
     // Updates the screen text
     void Update(String txt) {
-      screenText = string(txt);
+      screenText = String(txt);
     } 
 
 }; // End Rectangle class
@@ -178,7 +178,7 @@ class Circle {
 
     // Updates the screen text
     void Update(String txt) {
-      screenText = string(txt);
+      screenText = String(txt);
     } 
     
 }; // End circle class
@@ -238,6 +238,7 @@ class TxtString {
     int16_t cursory;      // Cursor y
     int8_t textSize;      // Text Size
     uint16_t textColor;   // Text color
+    uint16_t fillColor;   // Text fill color
     String screenText;    // Screen Text
     int8_t textLength;    // Screen Text length
     String tempString;
@@ -245,7 +246,7 @@ class TxtString {
     // Constructor - creates a text string
     // and initializes the member variables and state
   public:
-    TxtString(int16_t x, int16_t y, String txt, uint16_t tc, int8_t ts) { 
+    TxtString(int16_t x, int16_t y, String txt, uint16_t tc, uint16_t fc, int8_t ts) { 
       cursorx = x;
       cursory = y;
       fillColor = fc;
@@ -259,13 +260,13 @@ class TxtString {
     void Draw() {    
       tft.setCursor(cursorx, cursory);
       tft.setTextSize(textSize);
-      tft.setTextColor(textColor);
+      tft.setTextColor(textColor, fillColor);
       tft.println(screenText);
       } // End circle draw
 
     // Updates the screen text
     void Update(String txt) {
-      screenText = txt;
+      screenText = String(txt);
     } 
     
 }; // End text string class
