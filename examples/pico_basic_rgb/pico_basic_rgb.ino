@@ -2,9 +2,8 @@
 #include "FastLED.h"
 #include <pico_relay.h>
 #define NUM_LEDS 7
-#define DATA_PIN 15 // Data ouput pin
-
-
+#define DATA_PIN 15 // Tester data ouput pin
+//#define DATA_PIN 16 // Robot data ouput pin
 
 CRGB leds[NUM_LEDS];
 
