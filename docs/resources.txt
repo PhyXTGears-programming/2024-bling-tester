@@ -1,4 +1,5 @@
 Pico controller mode:
+https://forum.arduino.cc/t/raspberry-pi-pico-i2c/918824
 https://forums.raspberrypi.com/viewtopic.php?t=304074
 https://www.penguintutor.com/electronics/i2c
 
