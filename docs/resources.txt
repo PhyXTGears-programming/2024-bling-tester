@@ -1,0 +1,4 @@
+Pico controller mode:
+https://www.penguintutor.com/electronics/i2c
+
+
