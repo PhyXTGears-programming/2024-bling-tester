@@ -2,7 +2,7 @@
 const int buttonPin = 14;     // the number of the pushbutton pin
 const int ledPin =  13;      // the number of the LED pin
 
-bool ledBlink = true;
+bool ledStatus = true;
 
 void setupButton() {
   // initialize the LED pin as an output:
@@ -14,9 +14,9 @@ void setupButton() {
 void checkButton() {
   // read the state of the pushbutton value:
   if(digitalRead(buttonPin)==true){
-    ledBlink = !ledBlink;
+    ledStatus = !ledStatus;
   } while(digitalRead(buttonPin)==true);
-    digitalWrite(ledPin, ledBlink);
+    digitalWrite(ledPin, ledStatus);
     delay(50);
   }
  
