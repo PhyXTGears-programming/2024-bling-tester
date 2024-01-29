@@ -1,4 +1,7 @@
 Pico controller mode:
+https://forums.raspberrypi.com/viewtopic.php?t=304074
 https://www.penguintutor.com/electronics/i2c
 
+FastLED
+https://github.com/FastLED/FastLED
 
