@@ -1,40 +1,26 @@
-// Demonstrates a simple use of the setup1()/loop1() functions
-// for a multiprocessor run.
+git
+bool core0_status = false;
 
-// Will output something like, where C0 is running on core 0 and
-// C1 is on core 1, in parallel.
-
-// 11:23:07.507 -> C0: Blue leader standing by...
-// 11:23:07.507 -> C1: Red leader standing by...
-// 11:23:07.507 -> C1: Stay on target...
-// 11:23:08.008 -> C1: Stay on target...
-// 11:23:08.505 -> C0: Blue leader standing by...
-// 11:23:08.505 -> C1: Stay on target...
-// 11:23:09.007 -> C1: Stay on target...
-// 11:23:09.511 -> C0: Blue leader standing by...
-// 11:23:09.511 -> C1: Stay on target...
-// 11:23:10.015 -> C1: Stay on target...
-
-// Released to the public domain
-
-// The normal, core0 setup
+// Rnning on core0
 void setup() {
   Serial.begin(115200);
   delay(5000);
 }
 
 void loop() {
-  Serial.printf("C0: Blue leader standing by...\n");
-  delay(1000);
+  if (core0_status == false)
+    Serial.printf("C0: Status is true\n");
+  else
+    Serial.printf("C0: Status is false\n");
+  delay(2000);
 }
 
 // Running on core1
 void setup1() {
-  delay(5000);
-  Serial.printf("C1: Red leader standing by...\n");
 }
 
 void loop1() {
-  Serial.printf("C1: Stay on target...\n");
-  delay(500);
+  core0_status = !core0_status;
+  Serial.printf("C1: changing Core0 status\n");
+  delay(5050);
 }
