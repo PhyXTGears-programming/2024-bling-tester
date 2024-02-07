@@ -3,8 +3,6 @@
 // send data both ways between them. Connect GPIO0 to GPIO2, GPIO1 to GPIO3 on a single Pico
 
 #include <Wire.h>
-bool core0_status = false;
-bool core1_status = false;
 
 // Running on core0
 void setup() {
@@ -22,20 +20,19 @@ void loop() {
     char b[90];
 
     // Write a value over I2C to the responder
-    Serial.println();
+    Serial.println("Sending...");
     Wire.beginTransmission(0x30);
     sprintf(b, "pass %d", p++);
-    Serial.println("Sending to Core 1");
     Wire.write(b, strlen(b));
     Wire.endTransmission();
-    
+
     // Ensure the responder processing is done and print it out 
-    delay(3000);
+    delay(1000);
     Serial.printf("buff: '%s'\r\n", buff);
 
     // Read from the responder and print out
     Wire.requestFrom(0x30, 6);
-    Serial.print("\nrecv: ' From Core 2:");
+    Serial.print("\nrecv: '");
     while(Wire.available()) {
         Serial.print((char)Wire.read());
     }
@@ -55,8 +52,8 @@ void setup1() {
 
 // Running on core1
 void loop1() {
-  //Serial.printf("C1: Stay on target...\n");
-  //delay(500);
+  Serial.printf("C1: Stay on target...\n");
+  delay(500);
 }
 
 // These are called in an **INTERRUPT CONTEXT** which means NO serial port

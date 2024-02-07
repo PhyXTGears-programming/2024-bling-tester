@@ -1,9 +1,8 @@
-Main Fucntions								1/18/24
+Main Fucntions								2/1/24
 Select number of LEDs
 Select Brighness
-Select Pattern AAAAA; ABCDE etc
+Select Color and Pattern AAAAA; ABCDE etc
 Select Motion: Fill-Empty; Flash; Twinkle etc
-Robot Control
 
 Coding Setup
 Rotary Encoder for screen selection. Scroll through options on screen menus.
@@ -12,7 +11,7 @@ This function will return 1 for each clockwise click; -1 for each count-clockwis
 Example: posNow = checkPosition();
 
 Screen Display 
-Use these functions to draw lines, draw rectangle with text, draw circle with text.
+Use these functions to draw lines, draw rectangle with text, draw circle with text, draw text.
 Class Rectangle:
 Create instance as follows:
 Rectangle(int16_t x,int16_t y,int8_t b,int8_t w,int8_t h,uint16_t bc,uint16_t fc,String txt,uint16_t tc, int8_t ts) 
@@ -36,6 +35,13 @@ where x,y are top/left end; w,l are width and length
 lv is Verical/Horizontal (true vertical, false horizontal)
 lc is line color
 git Example: Vline ln1(65,0,5,150,true,YELLOW);
+
+Class TxtString:
+Create instance as follows:
+TxtString(int16_t x, int16_t y, String txt, uint16_t tc, uint16_t fc, int8_t ts) 
+where x,y are cursor position; txt is the string to display
+tc is text color;  fc is the fill color; ts is text size (1 smallest - 5 largest)
+Example: TxtString txt(35,35,"abc,RED,BLUE,3);
 
 LED string output
 https://fastled.io/docs/

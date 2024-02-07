@@ -265,7 +265,10 @@ class TxtString {
       } // End circle draw
 
     // Updates the screen text
-    void Update(String txt) {
+    void Update(String txt,uint16_t tc, uint16_t fc) {
+      textColor = tc;
+      fillColor = fc;
+      tft.setTextColor(textColor, fillColor);
       screenText = String(txt);
     } 
     
